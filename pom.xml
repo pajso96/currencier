@@ -7,13 +7,29 @@
     <groupId>com.damianzschille.currencier</groupId>
     <artifactId>currencier</artifactId>
     <version>1.0</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <setting>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </setting>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.20.1</version>
-            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations-java5</artifactId>
+            <version>15.0</version>
         </dependency>
     </dependencies>
 </project>

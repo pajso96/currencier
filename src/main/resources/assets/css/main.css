@@ -1,0 +1,38 @@
+.text-field {
+    -fx-font-size: 14px;
+}
+
+.title-text {
+    -fx-font-size: 20px;
+}
+
+.info-text {
+    -fx-font-size: 12px;
+}
+
+.main-container{
+    -fx-border-color: #DDDDDD;
+    -fx-border-insets: 16;
+    -fx-border-width: 2;
+    -fx-border-style: solid;
+    -fx-padding: 24;
+}
+
+.container {
+    -fx-border-color: #601c1c;
+    -fx-border-insets: 1;
+    -fx-border-width: 1;
+    -fx-border-style: solid;
+    -fx-padding: 16;
+    -fx-background-color: #CCC;
+ }
+
+ .check-box > .box {
+     /* ... */
+     -fx-padding: 0.166667em 0.166667em 0.25em 0.25em; /* 2 2 3 3 */
+ }
+ .check-box > .box > .mark {
+     /* ... */
+     -fx-padding: 0.416667em 0.416667em 0.5em 0.5em; /* 5 5 6 6 */
+     -fx-shape: "M-0.25,6.083c0.843-0.758,4.583,4.833,5.75,4.833S14.5-1.5,15.917-0.917c1.292,0.532-8.75,17.083-10.5,17.083C3,16.167-1.083,6.833-0.25,6.083z";
+ }
