@@ -11,16 +11,23 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.util.Callback;
 import factory.IntervalDayCellFactory;
+import listener.OnResponseListenerInterface;
+import model.Currency;
+import service.CurrencyClientFactory;
+import service.CurrencyClientInterface;
 import utils.ViewLogger;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 public class StartController {
 
     @FXML
-    private DatePicker intervalFromPicker, intervalToPicker;
+    private DatePicker intervalFromPicker;
     @FXML
     private ChoiceBox currencyServiceChoice;
     @FXML
@@ -35,12 +42,45 @@ public class StartController {
     @FXML
     private ObservableList<String> currenciesList;
 
+    private CurrencyClientFactory currencyClientFactory;
+
+    public StartController() {
+        currencyClientFactory = new CurrencyClientFactory();
+    }
+
     @FXML
     public void initialize() {
         initServiceChoiceBox();
         initDatePickers();
         initRefreshIntervalBox();
         initCurrenciesList();
+    }
+
+    @FXML
+    private void onClientTestButtonClicked(){
+        String selectedService = (String) currencyServiceChoice.getSelectionModel().getSelectedItem();
+        try {
+            CurrencyClientInterface currencyClient = currencyClientFactory.create(selectedService);
+            currencyClient.setOnResponseListener(new OnResponseListenerInterface() {
+                @Override
+                public void onSuccess(List<Currency> currencies) {
+                    if(currencies.isEmpty()){
+                        ViewLogger.getInstance().showLog("Test passed, but cannot parse currencies from response.");
+                    }else {
+                        ViewLogger.getInstance().showLog("Test passed. First currency in list is:" + currencies.get(0).getCode());
+                    }
+                }
+                @Override
+                public void onFailure(int statusCode, String message) {
+                    ViewLogger.getInstance().showLog(message + "\nThe response code is:" + Integer.toString(statusCode));
+                }
+            });
+
+            currencyClient.handleResults();
+        } catch (Exception e) {
+            ViewLogger.getInstance().showLog("Currency Client with name " + selectedService + " not implemented");
+            e.printStackTrace();
+        }
     }
 
     private void initCurrenciesList() {
@@ -74,7 +114,10 @@ public class StartController {
     private void initDatePickers() {
         Callback datePicker = new IntervalDayCellFactory().getDayCellFactory();
         intervalFromPicker.setDayCellFactory(datePicker);
-        intervalToPicker.setDayCellFactory(datePicker);
+
+        Calendar calendar = Calendar.getInstance();
+
+        intervalFromPicker.setValue(LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) -1, calendar.get(Calendar.DAY_OF_MONTH)));
     }
 
     private void initServiceChoiceBox() {

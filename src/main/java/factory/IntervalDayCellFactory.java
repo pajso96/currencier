@@ -26,7 +26,7 @@ public class IntervalDayCellFactory {
 
                         if(item.isAfter(LocalDate.of(year, month, day))){
                             setDisable(true);
-                            setStyle("-fx-background-color: #ffc0cb;");
+                            setStyle("-fx-background-color: #FF6666;");
                         }
                     }
                 };

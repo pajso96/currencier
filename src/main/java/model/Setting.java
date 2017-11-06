@@ -40,6 +40,12 @@ public class Setting {
 
     private static void save(Setting setting){
 
+        String query = "";
+        try {
+            Database.getInstance().execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Nullable
@@ -53,8 +59,8 @@ public class Setting {
             String defaultCurrency, defaultServices;
             while (results.next()) {
                 setting = new Setting();
-                defaultCurrency = results.getString("defaultCurrency");
-                defaultServices = results.getString("defaultServices");
+                defaultCurrency = results.getString("default_currency");
+                defaultServices = results.getString("default_service");
                 fetchingTo = SQLDateFormatter.reformatDate(results.getString("fetching_to"));
                 lastFetch = SQLDateFormatter.reformatDateTime(results.getString("last_fetch"));
                 setting.setDefaultCurrency(defaultCurrency);
